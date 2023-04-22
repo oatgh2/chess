@@ -22,6 +22,9 @@ namespace Backend
 
     public Thread threadLobby;
 
+
+    private bool _acceptingSessions = true;
+
     private bool _isStarted = false;
 
     private bool _acceptingClients = true;
@@ -193,6 +196,8 @@ namespace Backend
     #endregion
 
 
+    #region Control Session
 
+    #endregion
   }
 }
