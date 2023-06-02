@@ -6,7 +6,7 @@ using Newtonsoft.Json;
 TcpClient client = new TcpClient();
 
 
-client.Connect(IPAddress.Parse("127.0.0.1"), 25560);
+client.Connect(IPAddress.Parse("127.0.0.1"), 4194);
 
 Thread thRead = new Thread(() =>
 {
@@ -30,9 +30,15 @@ Thread thWrite = new Thread(() =>
   NetworkStream stream = client.GetStream();
   Console.Clear();
   Console.WriteLine("Digite algo:");
-  string readedCommand = Console.ReadLine();
-  byte[] decodedMessage = Encoding.UTF8.GetBytes(readedCommand);
-  stream.Write(decodedMessage, 0, decodedMessage.Length);
+  ConsoleKeyInfo keyInfo;
+  do
+  {
+    keyInfo = Console.ReadKey(true);
+    char keyPressed = keyInfo.KeyChar;
+    byte[] encodedMessage = Encoding.UTF8.GetBytes(keyPressed.ToString());
+    stream.Write(encodedMessage, 0, encodedMessage.Length);
+  }
+  while (keyInfo.Key != ConsoleKey.Escape);
 });
 
 thWrite.Start();
